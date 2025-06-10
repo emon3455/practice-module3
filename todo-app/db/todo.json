@@ -19,12 +19,6 @@
     },
     {
         "userId": 1,
-        "id": 4,
-        "title": "et porro tempora emon",
-        "completed": true
-    },
-    {
-        "userId": 1,
         "id": 5,
         "title": "laboriosam mollitia et enim quasi adipisci quia provident emon",
         "completed": false
@@ -34,5 +28,11 @@
         "id": 6,
         "title": "qui ullam ratione quibusdam voluptatem quia omnis",
         "completed": false
+    },
+    {
+        "userId": 1,
+        "id": 4,
+        "title": "et porro tempora emon",
+        "completed": true
     }
 ]

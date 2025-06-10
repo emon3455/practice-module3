@@ -71,6 +71,41 @@ const server = http.createServer((req, res) => {
             message: "Todo Deleted Successfully!",
         }));
     }
+    else if (pathname.startsWith("/todo/") && req.method === "PATCH") {
+        const id = pathname.split("/")[2];
+        let body = "";
+
+        req.on("data", chunk => {
+            body += chunk.toString();
+        });
+
+        req.on("end", () => {
+            const updatedFields = JSON.parse(body);
+
+            const data = fs.readFileSync(filePath, { encoding: "utf-8" });
+            const todos = JSON.parse(data); // All todos in one array
+
+            let todoFound = false;
+
+            const updatedTodos = todos.map(todo => {
+                if (todo.id == id) {
+                    todoFound = true;
+                    return { ...todo, ...updatedFields }; // Merge only what's provided
+                }
+                return todo;
+            });
+
+            if (!todoFound) {
+                res.writeHead(404, { "Content-Type": "application/json" });
+                return res.end(JSON.stringify({ message: "Todo not found" }));
+            }
+
+            fs.writeFileSync(filePath, JSON.stringify(updatedTodos, null, 2), { encoding: "utf-8" });
+
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ message: "Todo updated successfully!" }));
+        });
+    }
     else {
         res.end("Route Not Found")
     }
